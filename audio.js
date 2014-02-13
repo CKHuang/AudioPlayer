@@ -57,10 +57,12 @@
 			});
 		},
 		_setPlayAudio: function(){ // 设置要播放的音频
+			var self = this;
 			if( self.playIndex > Player.playList.length - 1 ){
 				self.playIndex = 0;
 			}
-			audio.src = this.playList[this.playIndex].url;
+			audio.setAttribute('src', this.playList[this.playIndex].url);
+			self._stop();		
 		},
 		_play: function(){
 			audio.play();
@@ -69,6 +71,13 @@
 		_pause: function(){
 			audio && audio.pause();
 			this.isPlaying = false;
+		},
+		_stop: function(){
+			try{
+				audio.pause();
+				audio.currentTime = 0;
+				return true;
+			}catch(e){}
 		},
 		_volume: function( value ){
 			audio.volume = value;
